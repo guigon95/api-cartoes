@@ -3,7 +3,6 @@ package com.guigon.api_cartoes.infrastructure.config
 import com.guigon.api_cartoes.application.ports.CartaoExigibilidadeHandler
 import com.guigon.api_cartoes.application.ports.SolicitarCartaoUseCase
 import com.guigon.api_cartoes.application.usecases.CartaoParaJovemHandler
-import com.guigon.api_cartoes.application.usecases.OfertaCartaoJovem
 import com.guigon.api_cartoes.application.usecases.SolicitacaoCartaoUseCaseImpl
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean

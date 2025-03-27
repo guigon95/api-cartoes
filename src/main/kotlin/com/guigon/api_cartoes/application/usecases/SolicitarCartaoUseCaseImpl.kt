@@ -11,9 +11,9 @@ class SolicitacaoCartaoUseCaseImpl(
     override fun solicitar(solicitacao: Solicitacao): Solicitacao {
 
         for (handler in handlers) {
-            val oferta = handler.handle(solicitacao.cliente)
+            val oferta = handler.handle(solicitacao)
             if (oferta != null) {
-                solicitacao.cartoesOfertados = oferta.obter(solicitacao.cliente)
+                solicitacao.cartoesOfertados = oferta.obter(solicitacao)
                 return solicitacao
             }
         }
