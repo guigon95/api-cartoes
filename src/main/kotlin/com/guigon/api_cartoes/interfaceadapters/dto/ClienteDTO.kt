@@ -3,6 +3,8 @@ package com.guigon.api_cartoes.interfaceadapters.dto
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.guigon.api_cartoes.domain.Cliente
 import jakarta.validation.constraints.NotBlank
+import java.math.BigDecimal
+import java.time.LocalDate
 
 data class ClienteDTO(
     @NotBlank(message = "Nome é obrigatório")
@@ -16,14 +18,14 @@ data class ClienteDTO(
 
     @NotBlank(message = "Data de nascimento é obrigatória")
     @JsonProperty("data_nascimento")
-    val dataNascimento: String,
+    val dataNascimento: LocalDate,
 
     @NotBlank(message = "UF é obrigatória")
     val uf: String,
 
     @NotBlank(message = "Renda mensal é obrigatória")
     @JsonProperty("renda_mensal")
-    val rendaMensal: Double,
+    val rendaMensal: BigDecimal,
 
     @NotBlank(message = "Email é obrigatório")
     val email: String,
