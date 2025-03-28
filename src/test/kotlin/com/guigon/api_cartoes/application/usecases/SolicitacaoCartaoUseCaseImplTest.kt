@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 import java.time.LocalDate
 
-class SolicitacaoCartaoParaJovemAdultoSPUseCaseImplTest {
+class SolicitacaoCartaoUseCaseImplTest {
 
     private lateinit var handler: List<CartaoExigibilidadeHandler>
     private lateinit var useCase: SolicitacaoCartaoUseCaseImpl
