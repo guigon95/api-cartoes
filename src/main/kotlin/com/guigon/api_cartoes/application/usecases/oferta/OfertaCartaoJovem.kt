@@ -7,7 +7,7 @@ import com.guigon.api_cartoes.domain.TipoCartaoEnum.CARTAO_SEM_ANUIDADE
 import com.guigon.api_cartoes.domain.exceptions.CriteriosJovemException
 
 class OfertaCartaoJovem : OfertaCartaoStrategy {
-    override fun obter(solicitacao: Solicitacao): List<Cartao> {
+    override suspend fun obter(solicitacao: Solicitacao): List<Cartao> {
         if(solicitacao.ehClientePrimeiraFaixaSalarial()) {
             return listOf(CARTAO_SEM_ANUIDADE.criarCartao())
         }

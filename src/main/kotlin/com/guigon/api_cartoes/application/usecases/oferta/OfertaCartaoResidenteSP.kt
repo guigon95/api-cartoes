@@ -9,7 +9,7 @@ import com.guigon.api_cartoes.domain.exceptions.CriteriosResidenteSPException
 
 
 class OfertaCartaoResidenteSP : OfertaCartaoStrategy {
-    override fun obter(solicitacao: Solicitacao): List<Cartao> {
+    override suspend fun obter(solicitacao: Solicitacao): List<Cartao> {
         return when {
             solicitacao.ehClientePrimeiraFaixaSalarial() -> listOf(CARTAO_SEM_ANUIDADE.criarCartao())
             solicitacao.ehClienteSegundaFaixaSalarial() -> listOf(CARTAO_SEM_ANUIDADE.criarCartao())

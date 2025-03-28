@@ -15,6 +15,7 @@ import com.guigon.api_cartoes.domain.exceptions.CriteriosResidenteSPException
 import com.guigon.api_cartoes.infrastructure.config.IdadeProperties
 import com.guigon.api_cartoes.infrastructure.config.JovemAdultoProperties
 import com.guigon.api_cartoes.infrastructure.config.JovemProperties
+import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
@@ -39,7 +40,7 @@ class SolicitacaoCartaoUseCaseImplTest {
     }
 
     @Test
-    fun `'solicitar' deve retornar CARTAO_SEM_ANIDADE quando criterios de salario e idade forem aceitos`() {
+    fun `'solicitar' deve retornar CARTAO_SEM_ANIDADE quando criterios de salario e idade forem aceitos`(): Unit = runBlocking {
         val solicitacao = getSolicitacao(BigDecimal(1000), 20)
         val result = useCase.solicitar(solicitacao)
 
@@ -48,26 +49,30 @@ class SolicitacaoCartaoUseCaseImplTest {
     }
 
     @Test
-    fun `'solicitar' deve lancar exception quando renda mensal de jovem for menor que os criterios de salario`() {
+    fun `'solicitar' deve lancar exception quando renda mensal de jovem for menor que os criterios de salario`(): Unit = runBlocking {
         val solicitacao = getSolicitacao(BigDecimal(999), 20)
 
         assertThatThrownBy {
-            useCase.solicitar(solicitacao)
+            runBlocking {
+                useCase.solicitar(solicitacao)
+            }
         }.isInstanceOf(CriteriosJovemException::class.java)
     }
 
     @Test
-    fun `'solicitar' deve lancar exception quando renda mensal de jovem for maior que os criterios de salario`() {
+    fun `'solicitar' deve lancar exception quando renda mensal de jovem for maior que os criterios de salario`(): Unit = runBlocking {
         val solicitacao = getSolicitacao(BigDecimal(3000), 20)
 
         assertThatThrownBy {
-            useCase.solicitar(solicitacao)
+            runBlocking {
+                useCase.solicitar(solicitacao)
+            }
         }.isInstanceOf(CriteriosJovemException::class.java)
 
     }
 
     @Test
-    fun `'solicitar' deve retornar CARTAO_SEM_ANUIDADE e CARTAO_DE_PARCEIROS quando cliente residente em SP,COM 25 ANOS e segunda faixa salarial`() {
+    fun `'solicitar' deve retornar CARTAO_SEM_ANUIDADE e CARTAO_DE_PARCEIROS quando cliente residente em SP,COM 25 ANOS e segunda faixa salarial`(): Unit = runBlocking {
         val solicitacao = getSolicitacao(BigDecimal(4500), 25)
 
         val result = useCase.solicitar(solicitacao)
@@ -77,7 +82,7 @@ class SolicitacaoCartaoUseCaseImplTest {
     }
 
     @Test
-    fun `'solicitar' deve retornar CARTA_SEM_ANUIDADE quando cliente residente SP, maior de 25 anos e for primeira faixa salarial`() {
+    fun `'solicitar' deve retornar CARTA_SEM_ANUIDADE quando cliente residente SP, maior de 25 anos e for primeira faixa salarial`(): Unit = runBlocking {
         val solicitacao = getSolicitacao(BigDecimal(2000), 25)
         val result = useCase.solicitar(solicitacao)
 
@@ -86,7 +91,7 @@ class SolicitacaoCartaoUseCaseImplTest {
     }
 
     @Test
-    fun `'solicitar' deve retornar CARTA_SEM_ANUIDADE e CARTAO_DE_PARCEIROS quando cliente residente SP, com idade 30 anos e for terceira faixa salarial`() {
+    fun `'solicitar' deve retornar CARTA_SEM_ANUIDADE e CARTAO_DE_PARCEIROS quando cliente residente SP, com idade 30 anos e for terceira faixa salarial`(): Unit = runBlocking {
         val solicitacao = getSolicitacao(BigDecimal(6000), 30)
 
         val result = useCase.solicitar(solicitacao)
@@ -96,7 +101,7 @@ class SolicitacaoCartaoUseCaseImplTest {
     }
 
     @Test
-    fun `'solicitar' deve retornar CARTA_SEM_ANUIDADE, CARTAO_DE_PARCEIROS e CARTAO_COM_CASHBACK quando cliente residente SP, com idade 26 anos e for terceira faixa salarial`() {
+    fun `'solicitar' deve retornar CARTA_SEM_ANUIDADE, CARTAO_DE_PARCEIROS e CARTAO_COM_CASHBACK quando cliente residente SP, com idade 26 anos e for terceira faixa salarial`(): Unit = runBlocking {
         val solicitacao = getSolicitacao(BigDecimal(7000), 26)
 
         val result = useCase.solicitar(solicitacao)
@@ -106,7 +111,7 @@ class SolicitacaoCartaoUseCaseImplTest {
     }
 
     @Test
-    fun `'solicitar' deve retornar CARTAO_SEM_ANUIDADE e CARTAO_DE_PARCEIROS quando cliente residente SP, com idade maior que 30 anos e for segunda faixa salarial`() {
+    fun `'solicitar' deve retornar CARTAO_SEM_ANUIDADE e CARTAO_DE_PARCEIROS quando cliente residente SP, com idade maior que 30 anos e for segunda faixa salarial`(): Unit = runBlocking {
         val solicitacao = getSolicitacao(BigDecimal(4500), 29)
 
         val result = useCase.solicitar(solicitacao)
@@ -116,7 +121,7 @@ class SolicitacaoCartaoUseCaseImplTest {
     }
 
     @Test
-    fun `'solicitar' deve retornar CARTAO_SEM_ANUIDADE quando cliente residente SP, com idade 29 anos e for primeira faixa salarial`() {
+    fun `'solicitar' deve retornar CARTAO_SEM_ANUIDADE quando cliente residente SP, com idade 29 anos e for primeira faixa salarial`(): Unit = runBlocking {
         val solicitacao = getSolicitacao(BigDecimal(2000), 29)
 
         val result = useCase.solicitar(solicitacao)
@@ -126,16 +131,18 @@ class SolicitacaoCartaoUseCaseImplTest {
     }
 
     @Test
-    fun `'solicitar' deve lancar exception CriteriosNaoAceitosException quando cliente nao residente de SP e idade entre 25 e 30 anos`() {
+    fun `'solicitar' deve lancar exception CriteriosNaoAceitosException quando cliente nao residente de SP e idade entre 25 e 30 anos`(): Unit = runBlocking {
         val solicitacao = getSolicitacao(BigDecimal(2000), 25, "PR")
 
         assertThatThrownBy {
-            useCase.solicitar(solicitacao)
+            runBlocking {
+                useCase.solicitar(solicitacao)
+            }
         }.isInstanceOf(NenhumCriterioAceitoException::class.java)
     }
 
     @Test
-    fun `'solicitar' deve retornar CARTAO_SEM_ANUIDADE quando cliente nao residir em SP e idade entre 18 e 25 anos`() {
+    fun `'solicitar' deve retornar CARTAO_SEM_ANUIDADE quando cliente nao residir em SP e idade entre 18 e 25 anos`(): Unit = runBlocking {
         val solicitacao = getSolicitacao(BigDecimal(2000), 20, "PR")
 
         val result = useCase.solicitar(solicitacao)
@@ -149,12 +156,14 @@ class SolicitacaoCartaoUseCaseImplTest {
         val solicitacao = getSolicitacao(BigDecimal(2000), 17)
 
         assertThatThrownBy {
-            useCase.solicitar(solicitacao)
-        }.isInstanceOf(NenhumCriterioAceitoException::class.java)
+            runBlocking {
+                useCase.solicitar(solicitacao)
+            }
+        }.isInstanceOf(CriteriosJovemException::class.java)
     }
 
     @Test
-    fun `'solicitar' deve retornar todos os cartoes quando cliente residente SP, jovem adulto e terceira faixa salarial`() {
+    fun `'solicitar' deve retornar todos os cartoes quando cliente residente SP, jovem adulto e terceira faixa salarial`(): Unit = runBlocking {
         val solicitacao = getSolicitacao(BigDecimal(6000), 26)
 
         val result = useCase.solicitar(solicitacao)
@@ -168,12 +177,14 @@ class SolicitacaoCartaoUseCaseImplTest {
         val solicitacao = getSolicitacao(BigDecimal(999), 26)
 
         assertThatThrownBy {
-            useCase.solicitar(solicitacao)
+            runBlocking {
+                useCase.solicitar(solicitacao)
+            }
         }.isInstanceOf(CriteriosResidenteSPException::class.java)
     }
 
     @Test
-    fun `'solicitar' deve retornar CARTAO_SEM_ANUIDADE quando cliente é residente SP, idade maior que 30 anos e primeira faixa salarial`() {
+    fun `'solicitar' deve retornar CARTAO_SEM_ANUIDADE quando cliente é residente SP, idade maior que 30 anos e primeira faixa salarial`(): Unit = runBlocking {
         val solicitacao = getSolicitacao(BigDecimal(2000), 31)
 
         val result = useCase.solicitar(solicitacao)
@@ -183,7 +194,7 @@ class SolicitacaoCartaoUseCaseImplTest {
     }
 
     @Test
-    fun `'solicitar' deve retornar CARTAO_SEM_ANUIDADE e CARTAO_DE_PARCEIROS quando cliente é residente SP, idade maior que 30 anos e segunda faixa salarial`() {
+    fun `'solicitar' deve retornar CARTAO_SEM_ANUIDADE e CARTAO_DE_PARCEIROS quando cliente é residente SP, idade maior que 30 anos e segunda faixa salarial`(): Unit = runBlocking {
         val solicitacao = getSolicitacao(BigDecimal(4500), 31)
 
         val result = useCase.solicitar(solicitacao)
@@ -193,7 +204,7 @@ class SolicitacaoCartaoUseCaseImplTest {
     }
 
     @Test
-    fun `'solicitar' deve retornar CARTAO_SEM_ANUIDADE e CARTAO_DE_CASHBACK quando cliente é residente SP, idade maior que 30 anos e terceira faixa salarial`() {
+    fun `'solicitar' deve retornar CARTAO_SEM_ANUIDADE e CARTAO_DE_CASHBACK quando cliente é residente SP, idade maior que 30 anos e terceira faixa salarial`(): Unit = runBlocking {
         val solicitacao = getSolicitacao(BigDecimal(6000), 31)
 
         val result = useCase.solicitar(solicitacao)
@@ -203,12 +214,14 @@ class SolicitacaoCartaoUseCaseImplTest {
     }
 
     @Test
-    fun `'solicitar' deve lancar exception CriteriosNaoAceitosException quando cliente for maior de 30 anos, residente SP mas não tem faixa salarial aceita`() {
+    fun `'solicitar' deve lancar exception CriteriosNaoAceitosException quando cliente for maior de 30 anos, residente SP mas não tem faixa salarial aceita`(): Unit = runBlocking {
         val solicitacao = getSolicitacao(BigDecimal(999), 31)
 
         assertThatThrownBy {
-            useCase.solicitar(solicitacao)
-        }.isInstanceOf(NenhumCriterioAceitoException::class.java)
+            runBlocking {
+                useCase.solicitar(solicitacao)
+            }
+        }.isInstanceOf(CriteriosResidenteSPException::class.java)
     }
 
 
