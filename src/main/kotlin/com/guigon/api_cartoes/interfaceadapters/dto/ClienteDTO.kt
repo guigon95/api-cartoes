@@ -5,6 +5,7 @@ import com.guigon.api_cartoes.domain.Cliente
 import com.guigon.api_cartoes.interfaceadapters.exceptions.IdadeException
 import jakarta.validation.constraints.DecimalMin
 import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotEmpty
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.Period
@@ -16,7 +17,7 @@ data class ClienteDTO(
     @NotBlank(message = "CPF é obrigatório")
     val cpf: String,
 
-    @NotBlank(message = "Idade é obrigatória")
+    @NotEmpty(message = "Idade é obrigatória")
     val idade: Int,
 
     @NotBlank(message = "Data de nascimento é obrigatória")
@@ -26,7 +27,6 @@ data class ClienteDTO(
     @NotBlank(message = "UF é obrigatória")
     val uf: String,
 
-    @NotBlank(message = "Renda mensal é obrigatória")
     @DecimalMin(value = "0.0", inclusive = true, message = "Renda mensal não deve ser negativa")
     @JsonProperty("renda_mensal")
     val rendaMensal: BigDecimal,

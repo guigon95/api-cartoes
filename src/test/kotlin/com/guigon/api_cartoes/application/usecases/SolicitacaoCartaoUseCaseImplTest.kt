@@ -10,7 +10,7 @@ import com.guigon.api_cartoes.domain.TipoCartaoEnum.CARTAO_DE_PARCEIROS
 import com.guigon.api_cartoes.domain.TipoCartaoEnum.CARTAO_SEM_ANUIDADE
 import com.guigon.api_cartoes.domain.TipoCartaoEnum.CARTAO_COM_CASHBACK
 import com.guigon.api_cartoes.domain.exceptions.CriteriosJovemException
-import com.guigon.api_cartoes.domain.exceptions.CriteriosNaoAceitosException
+import com.guigon.api_cartoes.domain.exceptions.NenhumCriterioAceitoException
 import com.guigon.api_cartoes.domain.exceptions.CriteriosResidenteSPException
 import com.guigon.api_cartoes.infrastructure.config.IdadeProperties
 import com.guigon.api_cartoes.infrastructure.config.JovemAdultoProperties
@@ -131,7 +131,7 @@ class SolicitacaoCartaoUseCaseImplTest {
 
         assertThatThrownBy {
             useCase.solicitar(solicitacao)
-        }.isInstanceOf(CriteriosNaoAceitosException::class.java)
+        }.isInstanceOf(NenhumCriterioAceitoException::class.java)
     }
 
     @Test
@@ -150,7 +150,7 @@ class SolicitacaoCartaoUseCaseImplTest {
 
         assertThatThrownBy {
             useCase.solicitar(solicitacao)
-        }.isInstanceOf(CriteriosNaoAceitosException::class.java)
+        }.isInstanceOf(NenhumCriterioAceitoException::class.java)
     }
 
     @Test
@@ -208,7 +208,7 @@ class SolicitacaoCartaoUseCaseImplTest {
 
         assertThatThrownBy {
             useCase.solicitar(solicitacao)
-        }.isInstanceOf(CriteriosNaoAceitosException::class.java)
+        }.isInstanceOf(NenhumCriterioAceitoException::class.java)
     }
 
 
