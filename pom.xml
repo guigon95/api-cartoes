@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.guigon</groupId>
 	<artifactId>api-cartoes</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>api-cartoes</name>
 	<description>Api Cartoes</description>
 	<url/>
@@ -69,6 +69,12 @@
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-test-junit5</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>3.27.3</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
