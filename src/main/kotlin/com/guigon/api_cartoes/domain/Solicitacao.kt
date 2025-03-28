@@ -24,12 +24,14 @@ class Solicitacao(
     }
 
     fun ehJovem(): Boolean {
-        println("properties: ${idadeProperties.toString()}")
         return cliente.idade in idadeProperties.jovem.minima..idadeProperties.jovem.maxima
     }
 
+    fun ehMenorDeIdade(): Boolean {
+        return cliente.idade < idadeProperties.jovem.minima
+    }
+
     fun ehJovemAdulto(): Boolean {
-        println("properties: ${idadeProperties.toString()}")
         return cliente.idade in idadeProperties.jovemAdulto.minima..idadeProperties.jovemAdulto.maxima
     }
 
