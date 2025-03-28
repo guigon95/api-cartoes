@@ -1,11 +1,18 @@
 package com.guigon.api_cartoes.application.usecases
 
 import com.guigon.api_cartoes.application.ports.CartaoExigibilidadeHandler
+import com.guigon.api_cartoes.application.usecases.handlers.CartaoParaJovemAdultoSP
+import com.guigon.api_cartoes.application.usecases.handlers.CartaoParaJovemHandler
+import com.guigon.api_cartoes.application.usecases.handlers.CartaoParaResidenteSPHandler
 import com.guigon.api_cartoes.domain.Cliente
 import com.guigon.api_cartoes.domain.Solicitacao
 import com.guigon.api_cartoes.domain.TipoCartaoEnum.CARTAO_DE_PARCEIROS
 import com.guigon.api_cartoes.domain.TipoCartaoEnum.CARTAO_SEM_ANUIDADE
+import com.guigon.api_cartoes.domain.TipoCartaoEnum.CARTAO_COM_CASHBACK
 import com.guigon.api_cartoes.domain.exceptions.CriteriosJovemException
+import com.guigon.api_cartoes.infrastructure.config.IdadeProperties
+import com.guigon.api_cartoes.infrastructure.config.JovemAdultoProperties
+import com.guigon.api_cartoes.infrastructure.config.JovemProperties
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
@@ -13,7 +20,7 @@ import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 import java.time.LocalDate
 
-class SolicitacaoCartaoUseCaseImplTest {
+class SolicitacaoCartaoParaJovemAdultoSPUseCaseImplTest {
 
     private lateinit var handler: List<CartaoExigibilidadeHandler>
     private lateinit var useCase: SolicitacaoCartaoUseCaseImpl
@@ -21,7 +28,8 @@ class SolicitacaoCartaoUseCaseImplTest {
     @BeforeEach
     fun setUp() {
         handler = listOf(
-            CartaoParaJovemHandler(18, 25),
+            CartaoParaJovemHandler(),
+            CartaoParaJovemAdultoSP(),
             CartaoParaResidenteSPHandler()
         )
 
@@ -57,7 +65,7 @@ class SolicitacaoCartaoUseCaseImplTest {
     }
 
     @Test
-    fun `'solicitar'deve retornar CARTAO_SEM_ANUIDADE e CARTAO_DE_PARCEIROS quando cliente residente em SP e criterios de salarios aceitos`() {
+    fun `'solicitar' deve retornar CARTAO_SEM_ANUIDADE e CARTAO_DE_PARCEIROS quando cliente residente em SP,COM 25 ANOS e segunda faixa salarial`() {
         val solicitacao = getSolicitacao(BigDecimal(4500), 25)
 
         val result = useCase.solicitar(solicitacao)
@@ -76,14 +84,46 @@ class SolicitacaoCartaoUseCaseImplTest {
     }
 
     @Test
-    fun `'solicitar' deve retornar CARTA_SEM_ANUIDADE e CARTAO_DE_PARCEIROS quando cliente residente SP e for terceira faixa salarial`() {
-        val solicitacao = getSolicitacao(BigDecimal(6000), 26)
+    fun `'solicitar' deve retornar CARTA_SEM_ANUIDADE e CARTAO_DE_PARCEIROS quando cliente residente SP, com idade 30 anos e for terceira faixa salarial`() {
+        val solicitacao = getSolicitacao(BigDecimal(6000), 30)
+
+        val result = useCase.solicitar(solicitacao)
+
+        assertThat(result.cartoesOfertados?.size).isEqualTo(2)
+        assertThat(result.cartoesOfertados).contains(CARTAO_SEM_ANUIDADE.criarCartao(), CARTAO_COM_CASHBACK.criarCartao())
+    }
+
+    @Test
+    fun `'solicitar' deve retornar CARTA_SEM_ANUIDADE, CARTAO_DE_PARCEIROS e CARTAO_COM_CASHBACK quando cliente residente SP, com idade 26 anos e for terceira faixa salarial`() {
+        val solicitacao = getSolicitacao(BigDecimal(7000), 26)
+
+        val result = useCase.solicitar(solicitacao)
+
+        assertThat(result.cartoesOfertados?.size).isEqualTo(3)
+        assertThat(result.cartoesOfertados).contains(CARTAO_SEM_ANUIDADE.criarCartao(), CARTAO_DE_PARCEIROS.criarCartao(), CARTAO_COM_CASHBACK.criarCartao())
+    }
+
+    @Test
+    fun `'solicitar' deve retornar CARTAO_SEM_ANUIDADE e CARTAO_DE_PARCEIROS quando cliente residente SP, com idade maior que 30 anos e for segunda faixa salarial`() {
+        val solicitacao = getSolicitacao(BigDecimal(4500), 29)
 
         val result = useCase.solicitar(solicitacao)
 
         assertThat(result.cartoesOfertados?.size).isEqualTo(2)
         assertThat(result.cartoesOfertados).contains(CARTAO_SEM_ANUIDADE.criarCartao(), CARTAO_DE_PARCEIROS.criarCartao())
     }
+
+    @Test
+    fun `'solicitar' deve retornar CARTAO_SEM_ANUIDADE quando cliente residente SP, com idade 29 anos e for primeira faixa salarial`() {
+        val solicitacao = getSolicitacao(BigDecimal(2000), 29)
+
+        val result = useCase.solicitar(solicitacao)
+
+        assertThat(result.cartoesOfertados?.size).isEqualTo(1)
+        assertThat(result.cartoesOfertados).contains(CARTAO_SEM_ANUIDADE.criarCartao())
+    }
+
+
 
     private fun getSolicitacao(rendaMensal: BigDecimal, idade: Int) = Solicitacao(
         cliente = Cliente(
@@ -95,6 +135,10 @@ class SolicitacaoCartaoUseCaseImplTest {
             rendaMensal = rendaMensal,
             email = "email@email.com",
             telefoneWhatsapp = "11999999999"
+        ),
+        idadeProperties = IdadeProperties(
+            jovem = JovemProperties(18, 24),
+            jovemAdulto = JovemAdultoProperties(25, 29)
         )
     )
 

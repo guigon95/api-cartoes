@@ -1,4 +1,4 @@
-package com.guigon.api_cartoes.application.usecases
+package com.guigon.api_cartoes.application.usecases.handlers
 
 import com.guigon.api_cartoes.application.ports.CartaoExigibilidadeHandler
 import com.guigon.api_cartoes.application.ports.OfertaCartaoStrategy

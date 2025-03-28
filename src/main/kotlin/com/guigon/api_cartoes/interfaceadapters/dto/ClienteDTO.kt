@@ -2,9 +2,12 @@ package com.guigon.api_cartoes.interfaceadapters.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.guigon.api_cartoes.domain.Cliente
+import com.guigon.api_cartoes.interfaceadapters.exceptions.IdadeException
+import jakarta.validation.constraints.DecimalMin
 import jakarta.validation.constraints.NotBlank
 import java.math.BigDecimal
 import java.time.LocalDate
+import java.time.Period
 
 data class ClienteDTO(
     @NotBlank(message = "Nome é obrigatório")
@@ -24,6 +27,7 @@ data class ClienteDTO(
     val uf: String,
 
     @NotBlank(message = "Renda mensal é obrigatória")
+    @DecimalMin(value = "0.0", inclusive = true, message = "Renda mensal não deve ser negativa")
     @JsonProperty("renda_mensal")
     val rendaMensal: BigDecimal,
 
@@ -49,6 +53,10 @@ data class ClienteDTO(
         }
 
         fun toCliente(clienteDTO: ClienteDTO): Cliente {
+            val idadeCalculada = Period.between(clienteDTO.dataNascimento, LocalDate.now()).years
+            if (idadeCalculada < 18){
+                throw IdadeException()
+            }
             return Cliente(
                 nome = clienteDTO.nome,
                 cpf = clienteDTO.cpf,
