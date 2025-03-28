@@ -6,7 +6,7 @@ import com.guigon.api_cartoes.application.usecases.oferta.OfertaCartaoResidenteS
 import com.guigon.api_cartoes.domain.Solicitacao
 
 class CartaoParaResidenteSPHandler : CartaoExigibilidadeHandler {
-    override fun handle(solicitacao: Solicitacao): OfertaCartaoStrategy? {
+    override suspend fun handle(solicitacao: Solicitacao): OfertaCartaoStrategy? {
         if (solicitacao.ehResidenteSP()) {
             return OfertaCartaoResidenteSP()
         }

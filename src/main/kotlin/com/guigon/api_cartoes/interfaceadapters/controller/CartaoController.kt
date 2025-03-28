@@ -17,7 +17,7 @@ class CartaoController(
     private val idadeProperties: IdadeProperties
 ) {
     @PostMapping
-    fun solicitarCartao(@Valid @RequestBody request: SolicitacaoRequest): SolicitacaoResponse {
+    suspend fun solicitarCartao(@Valid @RequestBody request: SolicitacaoRequest): SolicitacaoResponse {
         val solicitacao = solicitacaoCartaoUseCase.solicitar(request.toSolicitacao(idadeProperties))
         return SolicitacaoResponse.fromSolicitacao(solicitacao)
     }

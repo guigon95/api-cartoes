@@ -3,5 +3,5 @@ package com.guigon.api_cartoes.application.ports
 import com.guigon.api_cartoes.domain.Solicitacao
 
 fun interface CartaoExigibilidadeHandler {
-    fun handle(solicitacao: Solicitacao): OfertaCartaoStrategy?
+    suspend fun handle(solicitacao: Solicitacao): OfertaCartaoStrategy?
 }
