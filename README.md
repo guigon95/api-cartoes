@@ -37,7 +37,7 @@ This project is a REST API built with Kotlin and Spring Boot. The API provides f
 
 ### Prerequisites
 
-- Make sure you have the following tools installed on your machine:
+#### Make sure you have the following tools installed on your machine:
 
 - **Java 21 or higher**
 - **Kotlin**
