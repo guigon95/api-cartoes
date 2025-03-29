@@ -73,6 +73,7 @@ The server will start on http://localhost:8080.
 
 The project structure follows the principles of Clean Architecture and is organized as follows:
 
+```
 src/
 ├── main/
 │   ├── kotlin/
@@ -93,7 +94,7 @@ src/
 │   │   │   │   ├── domain/             # Business rule tests
 │   │   │   │   ├── infrastructure/     # External interaction tests
 │   │   │   │   ├── interfaceadapters/  # Controller and adapter tests
-
+```
 
 ## Tests
 
