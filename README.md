@@ -69,6 +69,22 @@ The server will start on http://localhost:8080.
 
 ### Running the Application with Docker
 
+To run the application in a Docker container, follow these steps:
+
+1. **Build the Docker image:**
+
+   ```sh
+   docker build -t api-cartoes .
+   ```
+
+2. **Run the Docker container:**
+
+   ```sh
+   docker run -p 8080:8080 api-cartoes
+   ```
+
+This will build the Docker image and run the container, exposing the application on port 8080. You can access the application at `http://localhost:8080`.
+
 ## Project Structure
 
 The project structure follows the principles of Clean Architecture and is organized as follows:
