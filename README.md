@@ -87,6 +87,79 @@ To run the application in a Docker container, follow these steps:
 
 This will build the Docker image and run the container, exposing the application on port 8080. You can access the application at `http://localhost:8080`.
 
+### Docker Compose Setup
+In order to quickly set up the environment, including Kafka and an external API, you can use Docker Compose. This will bring up the necessary services for running the application with Kafka and any external dependencies (e.g., Kafka broker).
+
+1. Create a docker-compose.yml file in your project directory with the following content:
+
+```yaml
+services:
+   zookeeper:
+      image: confluentinc/cp-zookeeper:latest
+      networks:
+         - broker-kafka
+      environment:
+         ZOOKEEPER_CLIENT_PORT: 2181
+         ZOOKEEPER_TICK_TIME: 2000
+
+   kafka:
+      image: confluentinc/cp-kafka:latest
+      networks:
+         - broker-kafka
+      depends_on:
+         - zookeeper
+      ports:
+         - 9092:9092
+      environment:
+         KAFKA_BROKER_ID: 1
+         KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+         KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+         KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+         KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+         KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+   kafdrop:
+      image: obsidiandynamics/kafdrop:latest
+      networks:
+         - broker-kafka
+      depends_on:
+         - kafka
+      ports:
+         - 19000:9000
+      environment:
+         KAFKA_BROKERCONNECT: kafka:29092
+
+   api-clientes:
+      image: guigon95/api-clientes:latest
+      networks:
+         - broker-kafka
+      depends_on:
+         - kafka
+      ports:
+         - 8082:8082
+      environment:
+         SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+         SPRING_APPLICATION_PORT: 8082
+
+networks:
+   broker-kafka:
+      driver: bridge
+```
+
+2. Start the services using Docker Compose:
+
+```sh
+docker-compose up
+```
+This command will bring up the Zookeeper, Kafka, kafdrop and api-clientes services. The application will be available at http://localhost:8082 and kafkadrop at 19000.
+
+3. Stopping the services:
+   To stop all the running services, use the following command:
+
+```sh
+docker-compose down
+```
+
 ## ![Project Structure](https://img.icons8.com/fluency/19/000000/domain.png) Project Structure
 
 The project structure follows the principles of Clean Architecture and is organized as follows:

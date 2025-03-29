@@ -5,6 +5,7 @@ import com.guigon.api_cartoes.application.ports.ClienteApi
 import com.guigon.api_cartoes.application.ports.SolicitarCartaoUseCase
 import com.guigon.api_cartoes.domain.Solicitacao
 import com.guigon.api_cartoes.domain.exceptions.NenhumCriterioAceitoException
+import com.guigon.api_cartoes.interfaceadapters.dto.ClienteDTO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.slf4j.LoggerFactory
@@ -30,7 +31,7 @@ class SolicitacaoCartaoUseCaseImpl(
             throw NenhumCriterioAceitoException("Nenhuma oferta disponível")
         }
 
-        val requisicaoClienteDeferred = async { clienteApi.requisicaoExterna() }
+        val requisicaoClienteDeferred = async { clienteApi.requisicaoExterna(solicitacao.cliente) }
 
         solicitacaoDeferred.await()
         requisicaoClienteDeferred.await()

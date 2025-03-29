@@ -1,5 +1,6 @@
 package com.guigon.api_cartoes.infrastructure.config
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.guigon.api_cartoes.application.ports.CartaoExigibilidadeHandler
 import com.guigon.api_cartoes.application.ports.ClienteApi
 import com.guigon.api_cartoes.application.ports.SolicitarCartaoUseCase
@@ -71,9 +72,10 @@ class BeansConfiguration {
         webClient: WebClient,
         @Value("\${cliente.api.url}") apiUrl: String,
         meterRegistry: MeterRegistry,
-        circuitBreakerRegistry: CircuitBreakerRegistry
+        circuitBreakerRegistry: CircuitBreakerRegistry,
+        objectMapper: ObjectMapper
         ): ClienteApi {
-        return ClienteApiImp(webClient, apiUrl, meterRegistry, circuitBreakerRegistry.circuitBreaker("clienteApiCircuitBreaker"))
+        return ClienteApiImp(webClient, apiUrl, meterRegistry, circuitBreakerRegistry.circuitBreaker("clienteApiCircuitBreaker"), objectMapper)
     }
 
     @Bean
