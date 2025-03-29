@@ -7,14 +7,14 @@ This project is a REST API built with Kotlin and Spring Boot. The API provides f
 
 ## Index
 
-- [About](#about)
-- [Techonologies](#techonologies)
-- [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
-- [Tests](#tests)
-- [Usage Example](#usage-example)
-- [API Documentation](#api-documentation)
-- [License](#license)
+- ![About](https://img.icons8.com/fluency/15/000000/info.png) [About](#about)
+- ![Techonologies](https://img.icons8.com/fluency/15/000000/gear.png) [Techonologies](#techonologies)
+- ![Getting Started](https://img.icons8.com/fluency/15/000000/play.png) [Getting Started](#getting-started)
+- ![Project Structure](https://img.icons8.com/fluency/15/000000/domain.png) [Project Structure](#project-structure)
+- ![Tests](https://img.icons8.com/fluency/15/000000/checklist.png) [Tests](#tests)
+- ![Usage Example](https://img.icons8.com/fluency/15/000000/code.png) [Usage Example](#usage-example)
+- ![API Documentation](https://img.icons8.com/fluency/15/000000/book.png) [API Documentation](#api-documentation)
+- ![License](https://img.icons8.com/fluency/15/000000/law.png) [License](#license)
 
 ## About
 
