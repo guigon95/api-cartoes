@@ -8,11 +8,14 @@ import com.guigon.api_cartoes.application.usecases.handlers.CartaoParaJovemAdult
 import com.guigon.api_cartoes.application.usecases.handlers.CartaoParaJovemHandler
 import com.guigon.api_cartoes.application.usecases.handlers.CartaoParaResidenteSPHandler
 import com.guigon.api_cartoes.infrastructure.client.ClienteApiImp
+import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig
+import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry
 import io.micrometer.core.instrument.MeterRegistry
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.client.WebClient
+import java.time.Duration
 
 @Configuration
 class BeansConfiguration {
@@ -70,6 +73,25 @@ class BeansConfiguration {
         ): ClienteApi {
         return ClienteApiImp(webClient, apiUrl, meterRegistry)
     }
+
+
+    @Bean
+    fun circuitBreakerRegistry(): CircuitBreakerRegistry {
+        val circuitBreakerConfig = CircuitBreakerConfig.custom()
+//            .failureRateThreshold(50.0f)
+//            .waitDurationInOpenState(Duration.ofSeconds(10))
+//            .slidingWindowSize(5)
+//            .permittedNumberOfCallsInHalfOpenState(3)
+//            .minimumNumberOfCalls(5)
+            .build()
+
+        return CircuitBreakerRegistry.of(circuitBreakerConfig)
+    }
+
+
+    @Bean
+    fun clienteApiCircuitBreaker(circuitBreakerRegistry: CircuitBreakerRegistry) =
+        circuitBreakerRegistry.circuitBreaker("clienteApiCircuitBreaker")
 
     @Bean
     fun solicitarCartaoUseCase(
