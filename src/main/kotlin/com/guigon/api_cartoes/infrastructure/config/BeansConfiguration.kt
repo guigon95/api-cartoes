@@ -8,6 +8,8 @@ import com.guigon.api_cartoes.application.usecases.handlers.CartaoParaJovemAdult
 import com.guigon.api_cartoes.application.usecases.handlers.CartaoParaJovemHandler
 import com.guigon.api_cartoes.application.usecases.handlers.CartaoParaResidenteSPHandler
 import com.guigon.api_cartoes.infrastructure.client.ClienteApiImp
+import io.micrometer.core.instrument.MeterRegistry
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.client.WebClient
@@ -61,8 +63,12 @@ class BeansConfiguration {
     }
 
     @Bean
-    fun clienteApi(webClient: WebClient): ClienteApi {
-        return ClienteApiImp(webClient)
+    fun clienteApi(
+        webClient: WebClient,
+        @Value("\${cliente.api.url}") apiUrl: String,
+        meterRegistry: MeterRegistry
+        ): ClienteApi {
+        return ClienteApiImp(webClient, apiUrl, meterRegistry)
     }
 
     @Bean
