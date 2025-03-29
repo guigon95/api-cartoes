@@ -30,6 +30,10 @@ This project is a REST API built with Kotlin and Spring Boot. The API provides f
 - **JUnit 5**: Framework for unit testing.
 - **Docker**: For containerizing the application.
 - **GitHub Actions**: For CI/CD (optional).
+- **Swagger**: For API documentation.
+- **AssertJ**: For fluent assertions in tests.
+- **Slf4j**: For logging.
+
 
 ## ![Getting Started](https://img.icons8.com/fluency/19/000000/play.png) Getting Started
 
