@@ -20,6 +20,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.stub
 import org.mockito.kotlin.verify
@@ -44,7 +45,7 @@ class SolicitacaoCartaoUseCaseImplTest {
         clienteApi = mock { }
 
         clienteApi.stub {
-            onBlocking { requisicaoExterna(solicitacao.cliente) }.thenReturn(ClienteApiResponse(UUID.randomUUID()))
+            onBlocking { requisicaoExterna(any()) }.thenReturn(ClienteApiResponse(UUID.randomUUID()))
         }
 
         useCase = SolicitacaoCartaoUseCaseImpl(handler, clienteApi)

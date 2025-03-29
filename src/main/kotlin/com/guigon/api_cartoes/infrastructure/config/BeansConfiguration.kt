@@ -97,10 +97,6 @@ class BeansConfiguration {
     }
 
 
-//    @Bean
-//    fun clienteApiCircuitBreaker(circuitBreakerRegistry: CircuitBreakerRegistry) =
-//        circuitBreakerRegistry.circuitBreaker("clienteApiCircuitBreaker")
-
     @Bean
     fun solicitarCartaoUseCase(
         cartaoExigibilidadeList: List<CartaoExigibilidadeHandler>,
