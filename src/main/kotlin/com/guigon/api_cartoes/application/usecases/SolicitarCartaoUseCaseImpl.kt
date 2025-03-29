@@ -12,7 +12,7 @@ class SolicitacaoCartaoUseCaseImpl(
 
     private val logger = LoggerFactory.getLogger(SolicitacaoCartaoUseCaseImpl::class.java)
 
-    override fun solicitar(solicitacao: Solicitacao): Solicitacao {
+    override suspend fun solicitar(solicitacao: Solicitacao): Solicitacao {
         for (handler in handlers) {
             val oferta = handler.handle(solicitacao)
             if (oferta != null) {

@@ -7,7 +7,7 @@ import com.guigon.api_cartoes.domain.Solicitacao
 import com.guigon.api_cartoes.domain.exceptions.CriteriosJovemException
 
 class CartaoParaJovemHandler : CartaoExigibilidadeHandler{
-    override fun handle(solicitacao: Solicitacao): OfertaCartaoStrategy? {
+    override suspend fun handle(solicitacao: Solicitacao): OfertaCartaoStrategy? {
         if (solicitacao.ehJovem()) {
             return OfertaCartaoJovem()
         }
