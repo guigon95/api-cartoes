@@ -8,12 +8,10 @@ import com.guigon.api_cartoes.application.usecases.handlers.CartaoParaResidenteS
 import com.guigon.api_cartoes.domain.Cliente
 import com.guigon.api_cartoes.domain.ClienteApiResponse
 import com.guigon.api_cartoes.domain.Solicitacao
-import com.guigon.api_cartoes.domain.TipoCartaoEnum.CARTAO_DE_PARCEIROS
-import com.guigon.api_cartoes.domain.TipoCartaoEnum.CARTAO_SEM_ANUIDADE
-import com.guigon.api_cartoes.domain.TipoCartaoEnum.CARTAO_COM_CASHBACK
+import com.guigon.api_cartoes.domain.TipoCartaoEnum.*
 import com.guigon.api_cartoes.domain.exceptions.CriteriosJovemException
-import com.guigon.api_cartoes.domain.exceptions.NenhumCriterioAceitoException
 import com.guigon.api_cartoes.domain.exceptions.CriteriosResidenteSPException
+import com.guigon.api_cartoes.domain.exceptions.NenhumCriterioAceitoException
 import com.guigon.api_cartoes.infrastructure.config.IdadeProperties
 import com.guigon.api_cartoes.infrastructure.config.JovemAdultoProperties
 import com.guigon.api_cartoes.infrastructure.config.JovemProperties
@@ -27,7 +25,7 @@ import org.mockito.kotlin.stub
 import org.mockito.kotlin.verify
 import java.math.BigDecimal
 import java.time.LocalDate
-import java.util.UUID
+import java.util.*
 
 class SolicitacaoCartaoUseCaseImplTest {
 
