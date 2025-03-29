@@ -1,8 +1,6 @@
 
 # Api Cartões
 
-This project is a API for request cards, built with Kotlin.
-
 ## Description
 
 This project is a REST API built with Kotlin and Spring Boot. The API provides functionalities to to request credit cards and receive responses indicating which cards have been approved. It is designed to be scalable, efficient, and easy to maintain, following best practices of clean architecture, clean code principles, and modern development standards.
