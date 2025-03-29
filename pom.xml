@@ -48,6 +48,10 @@
 			<artifactId>jackson-module-kotlin</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-reflect</artifactId>
 		</dependency>
@@ -71,6 +75,11 @@
 		<dependency>
 			<groupId>io.github.resilience4j</groupId>
 			<artifactId>resilience4j-spring-boot3</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.github.resilience4j</groupId>
+			<artifactId>resilience4j-kotlin</artifactId>
 			<version>2.3.0</version>
 		</dependency>
 		<dependency>
@@ -104,17 +113,36 @@
 			<type>pom</type>
 		</dependency>
 		<dependency>
+			<groupId>org.mockito.kotlin</groupId>
+			<artifactId>mockito-kotlin</artifactId>
+			<version>3.2.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
 			<version>3.27.3</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.mockito.kotlin</groupId>
-			<artifactId>mockito-kotlin</artifactId>
-			<version>3.2.0</version>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>testcontainers</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
 
 		<dependency>
 			<groupId>org.springdoc</groupId>

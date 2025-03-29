@@ -1,5 +1,6 @@
 package com.guigon.api_cartoes.infrastructure.config
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.guigon.api_cartoes.application.ports.CartaoExigibilidadeHandler
 import com.guigon.api_cartoes.application.ports.ClienteApi
 import com.guigon.api_cartoes.application.ports.SolicitarCartaoUseCase
@@ -8,6 +9,7 @@ import com.guigon.api_cartoes.application.usecases.handlers.CartaoParaJovemAdult
 import com.guigon.api_cartoes.application.usecases.handlers.CartaoParaJovemHandler
 import com.guigon.api_cartoes.application.usecases.handlers.CartaoParaResidenteSPHandler
 import com.guigon.api_cartoes.infrastructure.client.ClienteApiImp
+import io.github.resilience4j.circuitbreaker.CircuitBreaker
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry
 import io.micrometer.core.instrument.MeterRegistry
@@ -69,29 +71,31 @@ class BeansConfiguration {
     fun clienteApi(
         webClient: WebClient,
         @Value("\${cliente.api.url}") apiUrl: String,
-        meterRegistry: MeterRegistry
+        meterRegistry: MeterRegistry,
+        circuitBreakerRegistry: CircuitBreakerRegistry,
+        objectMapper: ObjectMapper
         ): ClienteApi {
-        return ClienteApiImp(webClient, apiUrl, meterRegistry)
+        return ClienteApiImp(webClient, apiUrl, meterRegistry, circuitBreakerRegistry.circuitBreaker("clienteApiCircuitBreaker"), objectMapper)
     }
-
 
     @Bean
     fun circuitBreakerRegistry(): CircuitBreakerRegistry {
         val circuitBreakerConfig = CircuitBreakerConfig.custom()
-//            .failureRateThreshold(50.0f)
-//            .waitDurationInOpenState(Duration.ofSeconds(10))
-//            .slidingWindowSize(5)
-//            .permittedNumberOfCallsInHalfOpenState(3)
-//            .minimumNumberOfCalls(5)
+            .slidingWindowSize(5)
+            .failureRateThreshold(50.0f)
+            .waitDurationInOpenState(Duration.ofSeconds(10))
+            .permittedNumberOfCallsInHalfOpenState(3)
+            .minimumNumberOfCalls(5)
             .build()
 
         return CircuitBreakerRegistry.of(circuitBreakerConfig)
     }
 
-
     @Bean
-    fun clienteApiCircuitBreaker(circuitBreakerRegistry: CircuitBreakerRegistry) =
-        circuitBreakerRegistry.circuitBreaker("clienteApiCircuitBreaker")
+    fun customCircuitBreaker(registry: CircuitBreakerRegistry): CircuitBreaker {
+        return registry.circuitBreaker("externalServiceCB")
+    }
+
 
     @Bean
     fun solicitarCartaoUseCase(
