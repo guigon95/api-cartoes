@@ -14,9 +14,9 @@ import java.time.Duration
 class ClienteApiImp(
     private val webClient: WebClient
 ) : ClienteApi {
-    override suspend fun getDadosExternos(): ClienteApiResponse {
+    override suspend fun requisicaoExterna(): ClienteApiResponse {
         val result = webClient.get()
-            .uri("/clientes").accept(MediaType.APPLICATION_JSON)
+            .uri("https://67e731de6530dbd31112a54d.mockapi.io/api/v1/clientes").accept(MediaType.APPLICATION_JSON)
             .retrieve()
             .onStatus(HttpStatusCode::isError) {
                 it.toEntity<String>().map { error ->
@@ -24,11 +24,11 @@ class ClienteApiImp(
                 }
             }
             .bodyToMono(ClienteApiResponse::class.java)
-            .timeout(Duration.ofMillis(50))
-            .retryWhen(
-                Retry.backoff(3, Duration.ofMillis(100))
-                    .maxBackoff(Duration.ofMillis(500))
-            )
+            .timeout(Duration.ofMillis(100))
+//            .retryWhen(
+//                Retry.backoff(3, Duration.ofMillis(100))
+//                    .maxBackoff(Duration.ofMillis(500))
+//            )
             .awaitSingle()
 
         return result

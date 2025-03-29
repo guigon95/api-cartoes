@@ -1,14 +1,16 @@
 package com.guigon.api_cartoes.infrastructure.config
 
 import com.guigon.api_cartoes.application.ports.CartaoExigibilidadeHandler
+import com.guigon.api_cartoes.application.ports.ClienteApi
 import com.guigon.api_cartoes.application.ports.SolicitarCartaoUseCase
-import com.guigon.api_cartoes.application.usecases.handlers.CartaoParaJovemHandler
 import com.guigon.api_cartoes.application.usecases.SolicitacaoCartaoUseCaseImpl
 import com.guigon.api_cartoes.application.usecases.handlers.CartaoParaJovemAdultoSP
+import com.guigon.api_cartoes.application.usecases.handlers.CartaoParaJovemHandler
 import com.guigon.api_cartoes.application.usecases.handlers.CartaoParaResidenteSPHandler
-import org.springframework.beans.factory.annotation.Value
+import com.guigon.api_cartoes.infrastructure.client.ClienteApiImp
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.web.reactive.function.client.WebClient
 
 @Configuration
 class BeansConfiguration {
@@ -54,9 +56,20 @@ class BeansConfiguration {
     }
 
     @Bean
+    fun webClient(): WebClient {
+        return WebClient.create()
+    }
+
+    @Bean
+    fun clienteApi(webClient: WebClient): ClienteApi {
+        return ClienteApiImp(webClient)
+    }
+
+    @Bean
     fun solicitarCartaoUseCase(
-        cartaoExigibilidadeList: List<CartaoExigibilidadeHandler>
+        cartaoExigibilidadeList: List<CartaoExigibilidadeHandler>,
+        clienteApi: ClienteApi
     ): SolicitarCartaoUseCase {
-        return SolicitacaoCartaoUseCaseImpl(cartaoExigibilidadeList)
+        return SolicitacaoCartaoUseCaseImpl(cartaoExigibilidadeList, clienteApi)
     }
 }
