@@ -41,4 +41,19 @@ class ExceptionHandler(
 
         return ResponseEntity(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY)
     }
+
+    @ExceptionHandler(RuntimeException::class)
+    fun handleRuntimeException(ex: RuntimeException): ResponseEntity<ErrorResponse> {
+        val errorResponse = ErrorResponse(
+            codigo = "500",
+            mensagem = "Erro interno",
+            detalheErro = DetalheErro(
+                app = nomeApp,
+                tipoErro = "ERRO_INTERNO",
+                mensagemInterna = "Tivemos um problema, mas fique tranquilo que o nosso time ja foi avisado."
+            )
+        )
+
+        return ResponseEntity(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR)
+    }
 }
