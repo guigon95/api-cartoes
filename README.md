@@ -8,7 +8,7 @@ This project is a REST API built with Kotlin and Spring Boot. The API provides f
 ## Index
 
 - ![About](https://img.icons8.com/fluency/15/000000/info.png) [About](#about)
-- ![Techonologies](https://img.icons8.com/fluency/15/000000/gear.png) [Techonologies](#techonologies)
+- ![Technologies](https://img.icons8.com/fluency/15/000000/gear.png) [Technologies](#techonologies)
 - ![Getting Started](https://img.icons8.com/fluency/15/000000/play.png) [Getting Started](#getting-started)
 - ![Project Structure](https://img.icons8.com/fluency/15/000000/domain.png) [Project Structure](#project-structure)
 - ![Tests](https://img.icons8.com/fluency/15/000000/checklist.png) [Tests](#tests)
@@ -16,11 +16,11 @@ This project is a REST API built with Kotlin and Spring Boot. The API provides f
 - ![API Documentation](https://img.icons8.com/fluency/15/000000/book.png) [API Documentation](#api-documentation)
 - ![License](https://img.icons8.com/fluency/15/000000/law.png) [License](#license)
 
-## About
+## ![About](https://img.icons8.com/fluency/19/000000/info.png)  About
 
 This project is a REST API built with Kotlin and Spring Boot. The API provides functionalities to to request credit cards and receive responses indicating which cards have been approved. It is designed to be scalable, efficient, and easy to maintain, following best practices of clean architecture, clean code principles, and modern development standards.
 
-## Techonologies
+## ![Technologies](https://img.icons8.com/fluency/19/000000/gear.png) Technologies
 
 - **Kotlin**: Modern programming language that runs on the JVM, supporting reactive and asynchronous programming with coroutines, suspend functions, etc.
 - **Spring Boot**: Framework for building Java or Kotlin applications based on microservices.
@@ -31,7 +31,7 @@ This project is a REST API built with Kotlin and Spring Boot. The API provides f
 - **Docker**: For containerizing the application.
 - **GitHub Actions**: For CI/CD (optional).
 
-## Getting Started
+## ![Getting Started](https://img.icons8.com/fluency/19/000000/play.png) Getting Started
 
 ### Prerequisites
 
@@ -83,7 +83,7 @@ To run the application in a Docker container, follow these steps:
 
 This will build the Docker image and run the container, exposing the application on port 8080. You can access the application at `http://localhost:8080`.
 
-## Project Structure
+## ![Project Structure](https://img.icons8.com/fluency/19/000000/domain.png) Project Structure
 
 The project structure follows the principles of Clean Architecture and is organized as follows:
 
@@ -110,7 +110,7 @@ src/
 │   │   │   │   ├── interfaceadapters/  # Controller and adapter tests
 ```
 
-## Tests
+## ![Tests](https://img.icons8.com/fluency/19/000000/checklist.png) Tests
 
 ### Unit Tests
 The project uses JUnit 5 for unit tests. You can run the tests with the following commands:
@@ -120,7 +120,7 @@ Using Maven:
 ./mvnw test
 ```
 
-### Usage Example
+## ![Usage Example](https://img.icons8.com/fluency/15/000000/code.png) Usage Example
 
 Here is an example of how to use the API to request a credit card:
 
@@ -172,7 +172,7 @@ Here is an example of how to use the API to request a credit card:
    }
    ```
 
-## API Documentation
+## ![API Documentation](https://img.icons8.com/fluency/19/000000/book.png) API Documentation
 The API documentation is available in the docs/swagger.json file. You can use Swagger UI to visualize and interact with the API.
 
 
@@ -181,5 +181,5 @@ link: http://localhost:8080/swagger-ui/index.html
 ![swagger.png](imagens/openapi.png)
 
 
-### License
+### ![License](https://img.icons8.com/fluency/19/000000/law.png) License
 This project is licensed under the Apache 2.0 License - see the LICENSE file for details.
