@@ -20,6 +20,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.stub
 import org.mockito.kotlin.verify
@@ -44,7 +45,7 @@ class SolicitacaoCartaoUseCaseImplTest {
         clienteApi = mock { }
 
         clienteApi.stub {
-            onBlocking { requisicaoExterna() }.thenReturn(ClienteApiResponse(UUID.randomUUID()))
+            onBlocking { requisicaoExterna(any()) }.thenReturn(ClienteApiResponse(UUID.randomUUID()))
         }
 
         useCase = SolicitacaoCartaoUseCaseImpl(handler, clienteApi)
@@ -55,7 +56,7 @@ class SolicitacaoCartaoUseCaseImplTest {
         val solicitacao = getSolicitacao(BigDecimal(1000), 20)
         val result = useCase.solicitar(solicitacao)
 
-        verify(clienteApi).requisicaoExterna()
+        verify(clienteApi).requisicaoExterna(solicitacao.cliente)
 
         assertThat(result.cartoesOfertados?.size).isEqualTo(1)
         assertThat(result.cartoesOfertados).contains(CARTAO_SEM_ANUIDADE.criarCartao())
@@ -90,7 +91,7 @@ class SolicitacaoCartaoUseCaseImplTest {
 
         val result = useCase.solicitar(solicitacao)
 
-        verify(clienteApi).requisicaoExterna()
+        verify(clienteApi).requisicaoExterna(solicitacao.cliente)
 
         assertThat(result.cartoesOfertados?.size).isEqualTo(2)
         assertThat(result.cartoesOfertados).contains(CARTAO_SEM_ANUIDADE.criarCartao(), CARTAO_DE_PARCEIROS.criarCartao())
@@ -101,7 +102,7 @@ class SolicitacaoCartaoUseCaseImplTest {
         val solicitacao = getSolicitacao(BigDecimal(2000), 25)
         val result = useCase.solicitar(solicitacao)
 
-        verify(clienteApi).requisicaoExterna()
+        verify(clienteApi).requisicaoExterna(solicitacao.cliente)
 
         assertThat(result.cartoesOfertados?.size).isEqualTo(1)
         assertThat(result.cartoesOfertados).contains(CARTAO_SEM_ANUIDADE.criarCartao())
@@ -113,7 +114,7 @@ class SolicitacaoCartaoUseCaseImplTest {
 
         val result = useCase.solicitar(solicitacao)
 
-        verify(clienteApi).requisicaoExterna()
+        verify(clienteApi).requisicaoExterna(solicitacao.cliente)
 
         assertThat(result.cartoesOfertados?.size).isEqualTo(2)
         assertThat(result.cartoesOfertados).contains(CARTAO_SEM_ANUIDADE.criarCartao(), CARTAO_COM_CASHBACK.criarCartao())
@@ -125,7 +126,7 @@ class SolicitacaoCartaoUseCaseImplTest {
 
         val result = useCase.solicitar(solicitacao)
 
-        verify(clienteApi).requisicaoExterna()
+        verify(clienteApi).requisicaoExterna(solicitacao.cliente)
 
         assertThat(result.cartoesOfertados?.size).isEqualTo(3)
         assertThat(result.cartoesOfertados).contains(CARTAO_SEM_ANUIDADE.criarCartao(), CARTAO_DE_PARCEIROS.criarCartao(), CARTAO_COM_CASHBACK.criarCartao())
@@ -137,7 +138,7 @@ class SolicitacaoCartaoUseCaseImplTest {
 
         val result = useCase.solicitar(solicitacao)
 
-        verify(clienteApi).requisicaoExterna()
+        verify(clienteApi).requisicaoExterna(solicitacao.cliente)
 
         assertThat(result.cartoesOfertados?.size).isEqualTo(2)
         assertThat(result.cartoesOfertados).contains(CARTAO_SEM_ANUIDADE.criarCartao(), CARTAO_DE_PARCEIROS.criarCartao())
@@ -149,7 +150,7 @@ class SolicitacaoCartaoUseCaseImplTest {
 
         val result = useCase.solicitar(solicitacao)
 
-        verify(clienteApi).requisicaoExterna()
+        verify(clienteApi).requisicaoExterna(solicitacao.cliente)
 
         assertThat(result.cartoesOfertados?.size).isEqualTo(1)
         assertThat(result.cartoesOfertados).contains(CARTAO_SEM_ANUIDADE.criarCartao())
@@ -172,7 +173,7 @@ class SolicitacaoCartaoUseCaseImplTest {
 
         val result = useCase.solicitar(solicitacao)
 
-        verify(clienteApi).requisicaoExterna()
+        verify(clienteApi).requisicaoExterna(solicitacao.cliente)
 
         assertThat(result.cartoesOfertados?.size).isEqualTo(1)
         assertThat(result.cartoesOfertados).contains(CARTAO_SEM_ANUIDADE.criarCartao())
@@ -195,7 +196,7 @@ class SolicitacaoCartaoUseCaseImplTest {
 
         val result = useCase.solicitar(solicitacao)
 
-        verify(clienteApi).requisicaoExterna()
+        verify(clienteApi).requisicaoExterna(solicitacao.cliente)
 
         assertThat(result.cartoesOfertados?.size).isEqualTo(3)
         assertThat(result.cartoesOfertados).contains(CARTAO_SEM_ANUIDADE.criarCartao(), CARTAO_DE_PARCEIROS.criarCartao(), CARTAO_COM_CASHBACK.criarCartao())
@@ -218,7 +219,7 @@ class SolicitacaoCartaoUseCaseImplTest {
 
         val result = useCase.solicitar(solicitacao)
 
-        verify(clienteApi).requisicaoExterna()
+        verify(clienteApi).requisicaoExterna(solicitacao.cliente)
 
         assertThat(result.cartoesOfertados?.size).isEqualTo(1)
         assertThat(result.cartoesOfertados).contains(CARTAO_SEM_ANUIDADE.criarCartao())
@@ -230,7 +231,7 @@ class SolicitacaoCartaoUseCaseImplTest {
 
         val result = useCase.solicitar(solicitacao)
 
-        verify(clienteApi).requisicaoExterna()
+        verify(clienteApi).requisicaoExterna(solicitacao.cliente)
 
         assertThat(result.cartoesOfertados?.size).isEqualTo(1)
         assertThat(result.cartoesOfertados).contains(CARTAO_SEM_ANUIDADE.criarCartao())
@@ -242,7 +243,7 @@ class SolicitacaoCartaoUseCaseImplTest {
 
         val result = useCase.solicitar(solicitacao)
 
-        verify(clienteApi).requisicaoExterna()
+        verify(clienteApi).requisicaoExterna(solicitacao.cliente)
 
         assertThat(result.cartoesOfertados?.size).isEqualTo(2)
         assertThat(result.cartoesOfertados).contains(CARTAO_SEM_ANUIDADE.criarCartao(), CARTAO_COM_CASHBACK.criarCartao())

@@ -14,14 +14,17 @@ import java.time.Period
 data class ClienteDTO(
     @Schema(description = "Nome do cliente", example = "João da Silva", required = true)
     @NotBlank(message = "Nome é obrigatório")
+    @JsonProperty("nome")
     val nome: String,
 
     @Schema(description = "CPF do cliente", example = "123.456.789-00", required = true)
     @NotBlank(message = "CPF é obrigatório")
+    @JsonProperty("cpf")
     val cpf: String,
 
     @Schema(description = "Idade do cliente", example = "30", required = true)
     @NotEmpty(message = "Idade é obrigatória")
+    @JsonProperty("idade")
     val idade: Int,
 
     @Schema(description = "Data de nascimento do cliente", example = "1990-01-01", required = true)
@@ -31,6 +34,7 @@ data class ClienteDTO(
 
     @Schema(description = "UF do cliente", example = "SP", required = true)
     @NotBlank(message = "UF é obrigatória")
+    @JsonProperty("uf")
     val uf: String,
 
     @Schema(description = "Renda mensal do cliente", example = "1000.00", required = true)
@@ -40,6 +44,7 @@ data class ClienteDTO(
 
     @Schema(description = "Email do cliente", example = "joao@email.com", required = true)
     @NotBlank(message = "Email é obrigatório")
+    @JsonProperty("email")
     val email: String,
 
     @Schema(description = "Telefone do cliente", example = "11999999999", required = true)

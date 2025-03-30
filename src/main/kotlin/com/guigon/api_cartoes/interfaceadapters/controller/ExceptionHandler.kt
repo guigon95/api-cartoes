@@ -2,11 +2,14 @@ package com.guigon.api_cartoes.interfaceadapters.controller
 
 import com.guigon.api_cartoes.domain.exceptions.NenhumCriterioAceitoException
 import com.guigon.api_cartoes.domain.exceptions.RegrasDeNegocioException
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import java.net.ConnectException
+import java.util.concurrent.TimeoutException
 
 @RestControllerAdvice
 class ExceptionHandler(
@@ -42,15 +45,60 @@ class ExceptionHandler(
         return ResponseEntity(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY)
     }
 
+    @ExceptionHandler(CallNotPermittedException::class)
+    fun handleCallNotPermittedException(ex: CallNotPermittedException): ResponseEntity<ErrorResponse> {
+        val errorResponse = ErrorResponse(
+            codigo = "503",
+            mensagem = "Serviço indisponível",
+            detalheErro = DetalheErro(
+                app = nomeApp,
+                tipoErro = ex.stackTrace.firstOrNull()?.className ?: "SERVICO_INDISPONIVEL",
+                mensagemInterna = ex.message!!
+            )
+        )
+
+        return ResponseEntity(errorResponse, HttpStatus.SERVICE_UNAVAILABLE)
+    }
+
+    @ExceptionHandler(TimeoutException::class)
+    fun handleTimeoutException(ex: TimeoutException): ResponseEntity<ErrorResponse> {
+        val errorResponse = ErrorResponse(
+            codigo = "504",
+            mensagem = "Tempo de resposta excedido",
+            detalheErro = DetalheErro(
+                app = nomeApp,
+                tipoErro = "TIMEOUT",
+                mensagemInterna = ex.message!!
+            )
+        )
+
+        return ResponseEntity(errorResponse, HttpStatus.GATEWAY_TIMEOUT)
+    }
+
+    @ExceptionHandler(ConnectException::class)
+    fun handleConnectException(ex: ConnectException): ResponseEntity<ErrorResponse> {
+        val errorResponse = ErrorResponse(
+            codigo = "503",
+            mensagem = "Serviço indisponível",
+            detalheErro = DetalheErro(
+                app = nomeApp,
+                tipoErro = "SERVICO_INDISPONIVEL",
+                mensagemInterna = ex.message!!
+            )
+        )
+
+        return ResponseEntity(errorResponse, HttpStatus.SERVICE_UNAVAILABLE)
+    }
+
     @ExceptionHandler(RuntimeException::class)
     fun handleRuntimeException(ex: RuntimeException): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse(
             codigo = "500",
-            mensagem = "Erro interno",
+            mensagem = "Tivemos um problema, mas fique tranquilo que o nosso time ja foi avisado.",
             detalheErro = DetalheErro(
                 app = nomeApp,
                 tipoErro = "ERRO_INTERNO",
-                mensagemInterna = "Tivemos um problema, mas fique tranquilo que o nosso time ja foi avisado."
+                mensagemInterna = ex.message!!
             )
         )
 
